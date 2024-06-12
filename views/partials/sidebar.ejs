@@ -1,0 +1,61 @@
+<div class="absolute top-0 left-0 w-[98vw]">
+    <nav style="border-bottom: 2px solid rgb(0, 0, 0);" class="h-[9vh] flex flex-row justify-between mx-8 items-center">
+<a href="/" class="text-3xl font-extralight tracking-tighter font-sans">EliteEmporium.</a>
+<div class="flex flex-row font-normal gap-4">
+    <a class="text-[15px]" href="#">Home</a>
+    <a class="text-[15px]" href="#">All Products</a>
+    <a class="text-[15px] ml-6" href="#">Cart</a>
+    <% if(user){ %>
+    <a class="text-[15px]" href="/dashboard"><%= user.username %></a>
+   <% } else{ %>
+        <a class="text-[15px]" href="/signup">My Account</a>
+     <% } %>
+</div>
+</nav>
+<% if(side){ %>
+<div class="sidebar text-sm w-1/5 h-[91vh] flex flex-col justify-between py-12 items-center">
+    <div class="flex flex-col">
+        <div class="flex text-black">
+            <label for="category ml-2">Categorized By:</label>
+            <select onchange="redirectToPage()" id="myDropdown" class="bg-transparent border-none outline-none font-semibold" name="category">
+            <option value="/call">Popular</option>
+            <option value=""><a href="#">Discounted</a></option>
+            <option value=""><a href="all">Fashion</a></option>
+        </select>
+        </div>
+        <div class="mt-5 flex flex-col">
+            <a href="#">Products</a>
+            <a href="#">Discounted</a>
+            <a href="#">New Products</a>
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <div class="mb-4">
+        <label for="filter">Filter By:</label>
+        <select class="font-semibold" name="filter" id="">
+        <option value="">Avaibility</option>
+        <option value="">Discounted</option>
+        <option value="">Low to High</option>
+        <option value="">High to low</option>
+    </select>
+</div>
+     <label class="inline-block	" for="priceFilter">Price Range:<p id="rangeValue" class="inline-block">10000</p></label>
+    <input oninput="updateValue(this.value)" type="range" min="50" max="500000" value="10000" class="w-[140%]" name="priceFilter">
+    </div>
+</div>
+</div>
+<% } else { %>
+    <div class="hidden"></div>
+    <%}%> 
+<script>
+    function redirectToPage() {
+        var dropdown = document.getElementById("myDropdown");
+        var selectedValue = dropdown.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
+    }
+    function updateValue(val) {
+            document.getElementById('rangeValue').textContent = val;
+        }
+</script>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>EliteEmporium</title>
+</head>
+<style>
+  *{
+    font-family: 'Poppins',sans-serif;
+  }
+</style>
+<body>
+  <%- include('partials/sidebar') %>
+  <% if(user && !user.isVerified){ %>
+    <a href="/verify" class="absolute w-[20vw] bottom-[40%] left-2 px-4 py-2 bg-red-500 rounded-md">Your account is not verified. Please Click Here to verify.</a>
+  <% } %>
+<div class="relative overflow-y-auto top-[12vh] left-[22%] flex flex-row w-[75%] h-[85vh] gap-4 flex-wrap">
+  <% if(success.length > 0){ %>
+    <div id="error-message" class="error-message px-6 py-4 rounded-md bg-green-600 fixed top-0 left-1/2 -translate-x-1/2 min-w-[20vw] max-w-[30vw] z-50 shadow-lg opacity-0 transform scale-95 transition-all duration-300 ease-in-out">
+      <div class="flex items-center">
+        <svg class="h-10 w-10 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span class="text-white font-semibold">Success :</span>
+        <p class="text-white ml-2"><%= success %></p>
+      </div>
+    </div>
+  <% } %>
+  <% if(info.length > 0){ %>
+    <div id="error-message" class="error-message px-6 py-4 rounded-md bg-blue-600 fixed top-0 left-1/2 -translate-x-1/2 min-w-[20vw] max-w-[30vw] z-50 shadow-lg opacity-0 transform scale-95 transition-all duration-300 ease-in-out">
+      <div class="flex items-center">
+        <svg class="h-10 w-10 text-blue-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 10v-2m0 0H9a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3z" />
+        </svg>
+        <span class="text-white font-semibold w-full">info:</span>
+        <p class="text-white ml-2"><%= info %></p>
+      </div>
+    </div>
+  <% } %>
+  <% if(products){ %>
+    <% products.forEach((elem, idx)=>{ %>
+      <a href="/preview/<%= elem._id%>" class="h-[75%] p-[1%] w-[22%] flex flex-col hover:shadow-lg">
+        <div class="bg-[url('<%= elem.img[0] %>')] bg-cover bg-center h-[60%]"></div>
+        <div class="px-1 h-[40%]">
+          <h2 class="text-gray-900 font-semibold text-md tracking-tight dark:text-black"><%= elem.name %></h2>   
+            <div>
+              <del><span class="text-lg font-bold text-zinc-500">$<%= elem.discountedPrice%></span></del>
+              <span class="text-2xl font-bold text-orange-500">$<%= elem.price %></span>
+            </div>
+              <p href="#"
+                class="text-white bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add
+                to cart</p>
+        </div>
+    </a>
+    <% }) %>
+  <% } %>
+    <!-- <a href="/preview" class="h-[75%] p-[1%] w-[22%] flex flex-col hover:shadow-lg">
+    <div class="bg-[url('https://tse2.mm.bing.net/th?id=OIP.BsF3T3B_HC3J5R_lZm1NJAHaHa&pid=Api&P=0&h=220')] bg-cover bg-center h-[60%]"></div>
+    <div class="px-1 h-[40%]">
+      <h2 class="text-gray-900 font-semibold text-md tracking-tight dark:text-black">Apple Watch Series 7
+        GPS, Aluminium Case, Starlight Sport</h2>   
+        <div>
+					<del><span class="text-lg font-bold text-zinc-500">$599</span></del>
+          <span class="text-2xl font-bold text-orange-500">$599</span>
+        </div>
+					<p href="#"
+						class="text-white bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add
+						to cart</p>
+    </div>
+</a> -->
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const errorMessage = document.getElementById("error-message");
+    
+    if (errorMessage) {
+      setTimeout(() => {
+        errorMessage.classList.remove('opacity-0', 'scale-95');
+        errorMessage.classList.add('opacity-100', 'scale-100');
+      }, 100); // Slight delay to ensure CSS transition is applied
+      
+      setTimeout(() => {
+        errorMessage.classList.remove('opacity-100', 'scale-100');
+        errorMessage.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+          errorMessage.style.display = 'none';
+        }, 300); // Wait for the transition to complete
+      }, 5000); // Display for 5 seconds
+    }
+  });
+  </script>
+</body>
+</html>

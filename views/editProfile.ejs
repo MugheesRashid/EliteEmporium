@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Edit Profile</title>
+</head>
+<body class="bg-white flex bg-local" >
+    <%- include('partials/sidebar') %>
+    <div class="bg-gray-200 relative mt-6 mx-auto max-w-6xl py-6 px-12 lg:px-24 shadow-xl mb-24">
+    <% if (user.dp.startsWith('http') || user.dp.startsWith('https')) { %>
+      <div class="h-[20vh] relative w-[20vh] bg-[url('<%= user.dp %>')] bg-center bg-cover mb-5 left-1/2 translate-x-[-50%] rounded-full">
+        <p class="edit absolute flex items-center right-2 bottom-2 rounded-full bg-zinc-700 h-9 w-9">
+          <svg xmlns="http://www.w3.org/2000/svg" class="relative cursor-pointer left-[9px]" width="16" height="16" fill="white" class="bi bi-pen-fill" viewBox="0 0 16 16">
+          <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+        </svg></p>
+      </div>
+    <% } else { %>
+      <div class="h-[20vh] relative w-[20vh] bg-[url('/images/dp/<%= user.dp %>')] bg-center bg-cover mb-5 left-1/2 translate-x-[-50%] rounded-full">
+        <p class="edit absolute flex items-center right-2 bottom-2 rounded-full bg-zinc-700 h-9 w-9">
+          <svg xmlns="http://www.w3.org/2000/svg" class="relative cursor-pointer left-[9px]" width="16" height="16" fill="white" class="bi bi-pen-fill" viewBox="0 0 16 16">
+          <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+        </svg></p>
+      </div>
+    <% } %>
+      <form action="/edited/<%= user._id %>" method="post">
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+          <div class="-mx-3 md:flex mb-6">
+            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="uppercase tracking-wide text-zinc-700 text-xs font-bold mb-2" for="company">
+                UserName:
+              </label>
+              <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" name="username" value="<%= user.username %>" id="company" type="text" placeholder="Username">
+            </div>
+            <div class="md:w-1/2 px-3">
+              <label class="uppercase tracking-wide text-zinc-900 text-xs font-bold mb-2" for="title">
+                Phone Number:
+              </label>
+              <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="title" name="number" type="text" value="<%= user.number %>" placeholder="+92xxxxxxxxx">
+            </div>
+            <div class="md:w-1/2 px-3">
+                <label class="uppercase tracking-wide text-zinc-900 text-xs font-bold mb-2" for="title">
+                  Email: <span class="text-[10px] italic text-zinc-600">(you have to verify the email later)</span>
+                </label>
+                <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="title" name="email" type="text" value="<%= user.email %>" placeholder="example@gmail.com">
+              </div>
+          </div>
+          <div class="-mx-3 md:flex mb-6">
+            <div class="md:w-full px-3">
+              <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="application-link">
+                Location
+              </label>
+              <textarea class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 resize-none h-142" id="application-link" name="location" type="text" placeholder="Location"><%= user.address.location %></textarea>
+              <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 mb-2 px-4" id="application-link" value="<%= user.address.home %>" name="home" type="text" placeholder="Home Name">
+              <select class="w-1/3 bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded" id="location" name="province">
+                <option <%= !user.address.province ? 'selected' : '' %>>--Choose Province--</option>
+                <option value="Punjab" <%= user.address.province === 'Punjab' ? 'selected' : '' %>>Punjab</option>
+                <option value="Sindh" <%= user.address.province === 'Sindh' ? 'selected' : '' %>>Sindh</option>
+                <option value="Balochistan" <%= user.address.province === 'Balochistan' ? 'selected' : '' %>>Balochistan</option>
+                <option value="K.P.K" <%= user.address.province === 'K.P.K' ? 'selected' : '' %>>K.P.K</option>
+                <option value="Gilgit Baltistan" <%= user.address.province === 'Gilgit Baltistan' ? 'selected' : '' %>>Gilgit Baltistan</option>
+              </select>
+              
+            </div>
+          </div>
+          <% if(error.length > 0){ %>
+            <p class="italic text-xs text-red-600"> <%= error %> !</p>
+          <% } %>
+          <div class="-mx-3 md:flex mt-2">
+            <div class="md:w-full px-3">
+              <button class="md:w-full bg-gray-900 text-white font-bold py-2 px-4 border-b-4 hover:border-b-2 border-gray-500 hover:border-gray-100 rounded-full">
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <form action="/dp" class="dpform absolute hidden" method="post" enctype="multipart/form-data">
+      <input class="dpuploader" type="file" name="dpimg">
+      <button type="submit">Upload</button>
+  </form>
+  <script>
+     document.querySelector(".edit").addEventListener("click", () => {
+               document.querySelector(".dpuploader").click();
+            })
+
+            document.querySelector(".dpuploader").addEventListener("change", () => {
+               document.querySelector(".dpform").submit();
+            })
+  </script>
+  </body>
+</html>

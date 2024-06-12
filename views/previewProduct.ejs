@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+    <style>
+       .review-stars span {
+            color: #FFD700; 
+        }
+        .overall-rating-stars span {
+            color: #FFD700; 
+            font-size: 2rem;
+        }
+        .rating-bar {
+            height: 1rem;
+            background-color: #E5E7EB;
+        }
+        .rating-fill {
+            height: 1rem;
+            background-color: #4F46E5; /* Indigo color for filled bar */
+        }
+        html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    </style>
+<body class="bg-gray-100">
+    <%- include('partials/sidebar') %>
+    <div class="bg-zinc-100">
+        <div class="pt-6">
+            <div class="max-w-2xl mx-auto py-10 px-4 sm:py-16 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+                <div class="slider-container swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <% product.img.forEach((elem, idx)=>{ %>
+                            <div class="swiper-slide"><img src="<%= elem %>" alt="Product Image 1" class="w-full h-full rounded-lg object-center object-cover"></div>
+                       <% })%>
+                    </div>
+                    <div class="swiper-pagination"></div>              
+                </div>
+
+                <div class="lg:pl-8">
+                    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl"><%= product.name %></h1>
+                    <% if(product.discountedPrice){ %>
+                    <p class="mt-4 text-2xl text-gray-400 inline-block"><del>$<%= product.price %></del></p>
+                    <p class="mt-4 font-semibold text-4xl text-orange-500 inline-block ml-4">$<%= product.discountedPrice %></p>
+                    <% } else{ %>
+                        <p class="mt-4 font-semibold text-4xl text-orange-500 inline-block ml-4">$<%= product.discountedPrice %></p>
+                    <% } %>
+                    <div class="mt-6">
+                        <div class="flex items-center">
+                            <div class="flex items-center">
+                                <span class="text-gray-900 h-5 w-5 flex-shrink-0">⭐</span>
+                                <span class="text-gray-900 h-5 w-5 flex-shrink-0">⭐</span>
+                                <span class="text-gray-900 h-5 w-5 flex-shrink-0">⭐</span>
+                                <span class="text-gray-900 h-5 w-5 flex-shrink-0">⭐</span>
+                                <span class="text-gray-900 h-5 w-5 flex-shrink-0">⭐</span>
+                            </div>
+                            <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">117 reviews</a>
+                        </div>
+                    </div>
+                        <!-- Colors -->
+                         <% if(product.colors ){ %>
+                        <div>
+                            <h3 class="text-sm text-gray-900 font-medium">Color</h3>
+                            <fieldset class="mt-4">
+                                <legend class="sr-only">Choose a color</legend>
+                                <div class="flex items-center space-x-3">
+                                    <!-- Color Swatches -->
+                                     <% product.colors.forEach((elem,idx) =>{ %>
+                                        <label id="color-label-<%= idx %>" class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
+                                            <input type="radio" name="color" value="<%= elem %>" class="sr-only" onclick="selectColor('<%= elem %>', <%= idx %>)" aria-labelledby="color-choice-0-label">
+                                            <span id="color-choice-0-label" class="sr-only"> <%= elem %> </span>
+                                            <span style="background-color: <%= elem %>" class="h-8 w-8 border border-black border-opacity-10 rounded-full"></span>
+                                        </label>
+                                     <% }) %>           
+                                    <!-- Repeat for other colors -->
+                                </div>
+                            </fieldset>
+                        </div>
+                        <% } %>
+                        <!-- Sizes -->
+                        <% if(product.sizes ){ %>
+                        <div class="mt-10">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm text-gray-900 font-medium">Size</h3>
+                                <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size guide</a>
+                            </div>
+                            <fieldset class="mt-4">
+                                <legend class="sr-only">Choose a size</legend>
+                                <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
+                                    <% product.sizes.forEach((elem, idx ) => { %>
+                                        <label id="size-label-<%= idx %>" class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase bg-white cursor-pointer focus:outline-none sm:flex-1 sm:py-6">
+                                            <input type="radio" name="size" value="<%= elem %>" class="sr-only" onclick="selectSize('<%= elem %>', <%= idx %>)" aria-labelledby="size-choice-<%= idx %>-label">
+                                            <span id="size-choice-<%= idx %>-label" class="capitalize"><%= elem %></span>
+                                            <span class="absolute -inset-px rounded-md pointer-events-none" aria-hidden="true"></span>
+                                        </label>
+                                    <% }) %>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <% } %>
+                        <form action="/addToCart/<%= product._id %>" method="post">
+                            <div class="quantity-selector flex items-center mt-4">
+                                <button type="button" class="quantity-decrement px-2 py-1 border border-gray-300" onclick="decrementQuantity()">-</button>
+                                <input type="number" id="quantityInput" name="quantity" value="1" min="1" class="quantity-input mx-2 w-16 text-center border border-gray-300">
+                                <button type="button" class="quantity-increment px-2 py-1 border border-gray-300" onclick="incrementQuantity()">+</button>
+                            </div>
+                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="hidden" id="selectedColorInput" name="selectedColor">
+                            <input type="hidden" id="selectedSizeInput" name="selectedSize">
+                            <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700">Add to cart</button>
+                        </form>
+                </div>
+            </div>
+            <div class="bg-white  mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 mb-6">Customer Reviews</h2>
+                <div class="border-b border-gray-200 py-6">
+                    <div class="flex items-center">
+                        <div class="overall-rating-stars flex items-center">
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>☆</span>
+                        </div>
+                        <p class="ml-3 text-3xl font-bold text-gray-900">4.0</p>
+                        <p class="ml-3 text-lg font-medium text-gray-500">Based on 234 reviews</p>
+                    </div>
+                    
+                    <!-- Rating Distribution -->
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-gray-900">5 stars</p>
+                            <div class="relative w-3/4">
+                                <div class="rating-bar rounded-full">
+                                    <div class="rating-fill rounded-full" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">70%</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-sm font-medium text-gray-900">4 stars</p>
+                            <div class="relative w-3/4">
+                                <div class="rating-bar rounded-full">
+                                    <div class="rating-fill rounded-full" style="width: 20%;"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">20%</p>                </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-sm font-medium text-gray-900">3 stars</p>
+                            <div class="relative w-3/4">
+                                <div class="rating-bar rounded-full">
+                                    <div class="rating-fill rounded-full" style="width: 5%;"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">5%</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-sm font-medium text-gray-900">2 stars</p>
+                            <div class="relative w-3/4">
+                                <div class="rating-bar rounded-full">
+                                    <div class="rating-fill rounded-full" style="width: 3%;"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">3%</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-sm font-medium text-gray-900">1 star</p>
+                            <div class="relative w-3/4">
+                                <div class="rating-bar rounded-full">
+                                    <div class="rating-fill rounded-full" style="width: 2%;"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">2%</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review 1 -->
+                <div class="border-b border-gray-200 py-6">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50" alt="User profile picture" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-900">John Doe</h3>
+                            <div class="review-stars flex">
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">This product is amazing! The quality exceeded my expectations and the delivery was super fast. Highly recommend!</p>
+                </div>
+                <!-- Review 2 -->
+                <div class="border-b border-gray-200 py-6">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50" alt="User profile picture" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-900">Jane Smith</h3>
+                            <div class="review-stars flex">
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">The product is good but the size was a bit off. Customer service was helpful though.</p>
+                </div>
+                <!-- Review 3 -->
+                <div class="border-b border-gray-200 py-6">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50" alt="User profile picture" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-900">Emily Johnson</h3>
+                            <div class="review-stars flex">
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                                <span>⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">Absolutely love it! Great quality and the color is exactly as shown in the pictures.</p>
+                </div>
+            </div>
+            <!-- Description and details -->
+            <div class="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:max-w-7xl lg:py-16 lg:px-8 lg:border-t lg:border-gray-200">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900">Description</h3>
+                    <div class="mt-4">
+                        <p class="text-base text-gray-900">This is a detailed description of the product. It provides comprehensive information about the features, specifications, and benefits of the product.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customers also purchased -->
+    <div class="bg-white">
+        <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Customers also purchased</h2>
+            <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <!-- Product Card -->
+                <div class="group relative">
+                    <div class="w-full bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80">
+                        <img src="https://via.placeholder.com/400" alt="Recommended Product 1" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Product Name 1
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Color</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$99.99</p>
+                    </div>
+                </div>
+                </div>        
+  </div>
+       </div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+ <script>
+  var swiper = new Swiper(".mySwiper", {
+    pagination: {
+      el: ".swiper-pagination",
+     },
+    });
+</script> 
+<script>
+    let selectedColor = null;
+    let selectedSize = null;
+    let previousSelectedSize = null;
+    let previousSelectedColor = null;
+
+    function selectColor(color, index) {
+        // Remove selected class from the previously selected size
+        if (previousSelectedColor !== null) {
+            document.getElementById('color-label-' + previousSelectedColor).classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-500');
+        }
+
+        // Add selected class to the currently selected size
+        document.getElementById('color-label-' + index).classList.add('border-indigo-500', 'ring-2', 'ring-indigo-500');
+
+        // Update the previously selected size
+        previousSelectedColor = index;
+
+        // Set the selected size value
+        selectedColor = color;
+        document.getElementById('selectedColorInput').value = color;
+        console.log("color " + previ)
+    }
+
+    function selectSize(size, index) {
+        // Remove selected class from the previously selected size
+        if (previousSelectedSize !== null) {
+            document.getElementById('size-label-' + previousSelectedSize).classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-500');
+        }
+
+        // Add selected class to the currently selected size
+        document.getElementById('size-label-' + index).classList.add('border-indigo-500', 'ring-2', 'ring-indigo-500');
+
+        // Update the previously selected size
+        previousSelectedSize = index;
+
+        // Set the selected size value
+        selectedSize = size;
+        document.getElementById('selectedSizeInput').value = size;
+        console.log("size" + selectedSize)
+    }
+
+    function incrementQuantity() {
+        const quantityInput = document.getElementById('quantityInput');
+        let quantity = parseInt(quantityInput.value);
+        quantityInput.value = quantity + 1;
+    }
+    function decrementQuantity() {
+        const quantityInput = document.getElementById('quantityInput');
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantityInput.value = quantity - 1;
+        }
+    }
+</script>
+</body>
+</html>

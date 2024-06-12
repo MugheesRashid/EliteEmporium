@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    <%- include('partials/sidebar') %>
+    <div class="px-16 py-4">
+    <h1 class="text-2xl font-semibold"> Dashboard </h1>
+    <div class="flex mt-4 ">
+        <div class="bg-zinc-300 w-[25%] h-[30vh]">
+            <h2 class="text-xl p-2 font-semibold">Profile</h2>
+            <div class="flex flex-col px-2 py-1">
+                <p><b>Username: </b> <%= user.username %></p>
+                <p><b>Email: </b><%= user.email %></</p>
+                <p><b>Phone Number: </b>
+                    <% if (user.number) { %>
+                    <%= user.number %>
+                   <% } else { %>
+                    Not Set yet
+                    <% } %></p></p>
+                <a href="/profile/edit/<%= user._id %>" class="text-blue-500">Edit</a>
+            </div>
+        </div>
+        <div class="bg-zinc-300 w-[73%] h-[30vh] ml-[2%]">
+            <h2 class="text-xl p-2 font-semibold">Address File</h2>
+            <div class="flex">
+            <div class="flex flex-col px-2 py-1">
+                <p class="text-sm mb-1 text-zinc-600 uppercase">Your Default DELIVERY Address</p>
+                <p><b><%= user.address.home%></b></p>
+                <p>
+                    <% if (user && user.address.location && user.address.province === "--Cho") { %>
+                    <%= user.address.location + "-" + user.address.province %>
+                   <% } else { %>
+                    Not Set yet
+                    <% } %></p>
+                </div>
+                <div class="flex flex-col px-2 py-1">
+                    <p class="text-sm mb-1 text-zinc-600 uppercase">Your Default billing Address</p>
+                    <p><b><%= user.address.home%></b></p>
+                    <p>
+                        <% if (user && user.address.location) { %>
+                        <%= user.address.location + "-" + user.address.province %>
+                       <% } else { %>
+                        Not Set yet
+                        <% } %></p>
+                    </div>
+            </div>
+            <a href="/profile/edit/<%= user._id %>" class="text-blue-500 px-2">Edit</a>
+        </div>
+    </div>
+    <div class="myOrder w-full bg-zinc-100 px-3 py-5 mt-4">
+        <h3 class="text-xl mt-3">My Orders</h3>
+    <div class="w-full mt-3 h-5 text-sm flex flex-row text-center text-zinc-500">
+        <div class="w-[8%] capitalize">S.No</div>
+        <div class="w-[14%] capitalize">Placed On</div>
+        <div class="w-[36%] capitalize">Product</div>
+        <div class="w-[8%] capitalize">Price</div>
+        <div class="w-[6%] capitalize">Qty.</div>
+        <div class="w-[13%] capitalize">Status</div>
+        <div class="w-[17%] capitalize">Buyer name</div>
+    </div>
+    <div class="order w-full h-full text-md flex flex-row mt-7 items-center">
+        <div class="w-[8%] capitalize text-center">1.</div>
+        <div class="w-[14%] capitalize text-center">15/3/2024</div>
+        <div class="w-[36%] capitalize flex flex-row px-3 items-center gap-2">
+            <img src="https://tse2.mm.bing.net/th?id=OIP.BsF3T3B_HC3J5R_lZm1NJAHaHa&pid=Api&P=0&h=220" class="bg-cover bg-center rounded-full w-[3.4rem] h-[3.4rem]">
+            <p >The Details Of the products are this this and this...</p>
+        </div>
+        <div class="w-[8%] capitalize text-center">Rs 1500</div>
+        <div class="w-[6%] capitalize text-center">1</div>
+        <div class="w-[13%] capitalize text-center">Shipped</div>
+        <div class="w-[17%] capitalize text-center">Muhammad Wahaj</div>
+    </div>
+   </div>
+</div>
+</body>
+</html>

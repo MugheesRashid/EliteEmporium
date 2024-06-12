@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <%- include('partials/sidebar') %>
+    <div class="max-w-2xl mx-auto py-6 px-4 sm:py-7 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 class="text-2xl font-semibold tracking-tight text-gray-900 mb-6">Add New Product</h2>
+        <form action="/productadded" method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md space-y-6">
+            <!-- Product Name -->
+            <div>
+                <label for="product-name" class="block text-sm font-medium text-gray-700">Product Name</label>
+                <div class="mt-1">
+                    <input type="text" name="productName" id="product-name" class="block px-4 py-2 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Product Name">
+                </div>
+            </div>
+            <!-- Product Price -->
+            <div class="flex flex-row justify-around">
+                <div>
+                <label for="product-price" class="block text-sm font-medium text-gray-700">Price</label>
+                <div class="mt-0">
+                    <input type="number" name="productPrice" id="product-price" class="block w-full px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="$0.00">
+                </div>
+            </div>
+            <div>
+                <label for="discount-price" class="block text-sm font-medium text-gray-700">Discounted Price(If any)</label>
+                <div class="mt-0">
+                    <input type="number" name="discountPrice" id="discount-price" class="block w-full px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="$0.00">
+                </div>
+            </div>
+            </div>
+            <!-- Product Description -->
+            <div>
+                <label for="product-description" class="block text-sm font-medium text-gray-700">Description</label>
+                <div class="mt-1">
+                    <textarea id="product-description" name="description" rows="4" class="block px-4 py-2 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Description of the product"></textarea>
+                </div>
+            </div>
+            <!-- Product Images -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Product Images</label>
+                <div class="mt-1 flex items-center">
+                    <input type="file" name="productImages" id="productImages" class="block px-4 py-2 w-full text-sm text-gray-900 border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-transparent" multiple required>
+                </div>
+            </div>            
+            <!-- Product Stock -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Stock</label>
+                <div class="mt-1">
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <input type="number" name="stock" id="stock" class="block px-4 py-2 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Stock" required>
+                        </div>
+                        <div class="variation-section">
+                            <label>Colors:</label>
+                            <div id="colorsContainer"></div>
+                            <button type="button" onclick="addColor()">Add Color</button>
+                        </div>
+                
+                        <div class="variation-section">
+                            <label>Sizes:</label>
+                            <div id="sizesContainer"></div>
+                            <button type="button" onclick="addSize()">Add Size</button>
+                        </div>
+                        <!-- Add more size fields as needed -->
+                         <select name="category" aria-valuetext="Select" required>
+                            <option value='undefined'>Choose Category</option>
+                            <option value="Electronic Devices & Accessories">Electronic Devices & Accessories</option>
+                            <option value="Sports & Outdoor">Sports & Outdoor</option>
+                            <option value="Watches,Bags & jewelery">Watches,Bags & jewelery</option>
+                            <option value="Fashion">Fashion</option>
+                         </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700">Add Product</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function addColor() {
+            const colorsContainer = document.getElementById('colorsContainer');
+            const colorInput = document.createElement('input');
+            colorInput.setAttribute('type', 'text');
+            colorInput.setAttribute('name', 'colors[]');
+            colorsContainer.appendChild(colorInput);
+            colorsContainer.appendChild(document.createElement('br'));
+        }
+
+        function addSize() {
+            const sizesContainer = document.getElementById('sizesContainer');
+            const sizeInput = document.createElement('input');
+            sizeInput.setAttribute('type', 'text');
+            sizeInput.setAttribute('name', 'sizes[]');
+            sizesContainer.appendChild(sizeInput);
+            sizesContainer.appendChild(document.createElement('br'));
+        }
+    </script>
+</body>
+</html>
