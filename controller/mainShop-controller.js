@@ -8,7 +8,7 @@ const home_Controller = async (req, res) => {
         username: req.session.passport.user,
       });
       const products = await productModel.find();
-      res.render("home", {
+      res.render("mainshop", {
         loggedin: true,
         user: user,
         side: true,
@@ -22,7 +22,7 @@ const home_Controller = async (req, res) => {
     }
   } else {
     const products = await productModel.find();
-    res.render("home", {
+    res.render("mainshop", {
       loggedin: false,
       side: true,
       success: req.flash("success"),

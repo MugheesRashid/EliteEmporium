@@ -44,25 +44,24 @@
 
   <% if(products){ %>
     <% products.forEach((elem, idx)=>{ %>
-   <div class="group relative bg-white p-4 rounded-lg shadow-md">
-  
-      <div class="w-full bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75">
-          <img src="<%= elem.img[0] %>" alt="Product 1" class="h-[248px] overflow-hidden object-center object-cover">
-      </div>
-      <div class="mt-4 flex justify-between">
-          <div>
-              <h3 class="text-sm text-gray-700">
-                  <a href="/preview/<%= elem._id %>">
-                      <span class="absolute inset-0"></span>
-                      <%= elem.name %>                
-                  </a>
-              </h3>
-              <p class="mt-1 text-sm text-gray-500"><%= elem.category %></p>
-          </div>
-          <del><span class="text-sm font-light text-zinc-500">$<%= elem.price%></span></del>
-          <p class="text-lg font- text-orange-900">$<%= elem.discountedPrice %></p>
-      </div>
-   </div>
+    <a class="group relative bg-white p-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg" href="/preview/<%= elem._id %>">
+    <div class="w-full bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75 transition duration-300">
+        <img src="<%= elem.img[0] %>" alt="Product Image" class="h-[248px] object-cover object-center">
+    </div>
+    <div class="mt-4 flex justify-between items-center">
+        <div>
+            <h3 class="text-sm text-gray-700">            
+                    <%= elem.name %>                        
+            </h3>
+            <p class="mt-1 text-sm text-gray-500"><%= elem.category %></p>
+        </div>
+        <div class="flex items-center">
+            <del class="text-sm font-light text-zinc-500">$<%= elem.price %></del>
+            <p class="ml-2 text-lg font-semibold text-orange-900">$<%= elem.discountedPrice %></p>
+        </div>
+    </div>
+</a>
+
     <% }) %>
   <% } %>
 </div>

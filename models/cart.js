@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 mongoose.connect("mongodb://127.0.0.1:27017/E-commerce");
 
 const cartSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: false
+  },
   holder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

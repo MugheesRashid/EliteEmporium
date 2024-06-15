@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 mongoose.connect("mongodb://127.0.0.1:27017/E-commerce");
 
 const productSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: false,
+  },
   name: {
     type: String,
   },
@@ -24,6 +28,9 @@ const productSchema = new mongoose.Schema({
   },
   discountedPrice: {
    type: Number,
+  },
+  adminRated: {
+     type: String,
   },
   category: {
     type: String,

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .hover-zoom {
+      transition: transform 0.3s;
+    }
+    .hover-zoom:hover {
+      transform: scale(1.05);
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Shop Header -->
+  <header class="bg-white shadow-md py-4">
+    <div class="container mx-auto flex items-center justify-between px-6">
+      <div class="flex items-center">
+        <img class="w-20 h-20 rounded-full border-2 border-gray-300" src="shop-logo.png" alt="Shop Logo">
+        <div class="ml-4">
+          <h1 class="text-3xl font-bold text-gray-800">Shop Name</h1>
+          <p class="text-gray-600">Your favorite place to shop</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="mt-4">
+    <div class="container mx-auto px-6">
+      <div class="relative gradient-bg rounded-lg shadow-lg p-8 text-white">
+        <h2 class="text-4xl font-bold">Welcome to Our Shop!</h2>
+        <p class="mt-4 text-lg">Discover amazing products and great deals</p>
+        <button class="mt-6 bg-white text-indigo-600 px-4 py-2 rounded-lg shadow-lg hover:bg-indigo-100 transition">Shop Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner -->
+  <section class="mt-8">
+    <div class="container mx-auto px-6">
+      <div class="relative">
+        <img class="w-full h-64 object-cover rounded-lg shadow-lg" src="banner-image.jpg" alt="Shop Banner">
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop Overview -->
+  <section class="mt-12">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-start">
+      <div class="md:w-full bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-2xl font-semibold text-gray-800">About Us</h3>
+        <p class="text-gray-700 mt-4">We offer a wide range of products that are perfect for everyone. <a href="#" class="text-blue-500">Read More</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Listings -->
+  <section class="mt-12">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-gray-800">Products</h3>
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 hover-zoom">
+          <img class="w-full h-48 object-cover" src="product-image.jpg" alt="Product Image">
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-gray-800">Product Name</h2>
+            <p class="text-gray-600 mt-2">$Price</p>
+            <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Quick View</button>
+          </div>
+        </div>
+        <!-- More products -->
+      </div>
+    </div>
+  </section>
+</body>
+</html>

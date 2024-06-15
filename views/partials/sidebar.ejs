@@ -1,49 +1,64 @@
-<div class="absolute top-0 left-0 w-[98vw]">
-    <nav style="border-bottom: 2px solid rgb(0, 0, 0);" class="h-[9vh] flex flex-row justify-between mx-8 items-center">
-<a href="/" class="text-3xl font-extralight tracking-tighter font-sans">EliteEmporium.</a>
-<div class="flex flex-row font-normal gap-4">
-    <a class="text-[15px]" href="#">Home</a>
-    <a class="text-[15px]" href="#">All Products</a>
-    <a class="text-[15px] ml-6" href="#">Cart</a>
-    <% if(user){ %>
-    <a class="text-[15px]" href="/dashboard"><%= user.username %></a>
-   <% } else{ %>
-        <a class="text-[15px]" href="/signup">My Account</a>
-     <% } %>
-</div>
+<div class="relative top-0 left-0 w-[98vw]">
+<nav class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                    <a href="/" class="text-3xl mt-4 font-extralight tracking-tighter font-sans">EliteEmporium.</a>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="/" class="text-gray-500 inline-flex items-center px-1 pt-1 text-sm font-medium">Home</a>
+                    <a href="/shop" class="text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Shop</a>
+                    <a href="#" class="text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">About</a>
+                    <a href="#" class="text-gray-500 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Contact</a>
+                </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <span class="sr-only">View notifications</span>
+                    <% if(user){ %>
+                        <a class="text-[15px] mr-3" href="/cart">Cart(<%= user.myCart.length %>)</a>
+                        <a class="text-[15px]" href="/dashboard"><%= user.username %></a>
+                        <div class="ml-3 relative">
+                            <div>
+                                <button class="bg-white flex text-sm border-2 border-transparent rounded-full focus:outline-none">
+                                    <span class="sr-only">Open user menu</span>
+                                    <img class="h-8 w-8 rounded-full" src="<%= user.dp %>" alt="">
+                                </button>
+                            </div>
+                        </div>
+                       <% } else{ %>
+                            <a class="text-[15px]" href="/signup">My Account</a>
+                         <% } %> </button>
+            </div>
+        </div>
+    </div>
 </nav>
+</div>
 <% if(side){ %>
-<div class="sidebar text-sm w-1/5 h-[91vh] flex flex-col justify-between py-12 items-center">
-    <div class="flex flex-col">
-        <div class="flex text-black">
-            <label for="category ml-2">Categorized By:</label>
-            <select onchange="redirectToPage()" id="myDropdown" class="bg-transparent border-none outline-none font-semibold" name="category">
-            <option value="/call">Popular</option>
-            <option value=""><a href="#">Discounted</a></option>
-            <option value=""><a href="all">Fashion</a></option>
-        </select>
-        </div>
-        <div class="mt-5 flex flex-col">
-            <a href="#">Products</a>
-            <a href="#">Discounted</a>
-            <a href="#">New Products</a>
+    <div class="mb-5 mt-4 px-3">
+        <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            <input type="text" placeholder="Search for products" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option>All Categories</option>
+                <option>Women's Clothing</option>
+                <option>Men's Clothing</option>
+                <option>Accessories</option>
+                <option>Footwear</option>
+            </select>
+            <select class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option>Sort by</option>
+                <option>Popular</option>
+                <option>Discounted</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+            </select>
+            <div class="flex items-center space-x-2">
+                <span class="text-gray-700">Price Range:</span>
+                <input type="number" placeholder="Min" class="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <span>-</span>
+                <input type="number" placeholder="Max" class="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
         </div>
     </div>
-    <div class="flex flex-col">
-        <div class="mb-4">
-        <label for="filter">Filter By:</label>
-        <select class="font-semibold" name="filter" id="">
-        <option value="">Avaibility</option>
-        <option value="">Discounted</option>
-        <option value="">Low to High</option>
-        <option value="">High to low</option>
-    </select>
-</div>
-     <label class="inline-block	" for="priceFilter">Price Range:<p id="rangeValue" class="inline-block">10000</p></label>
-    <input oninput="updateValue(this.value)" type="range" min="50" max="500000" value="10000" class="w-[140%]" name="priceFilter">
-    </div>
-</div>
-</div>
 <% } else { %>
     <div class="hidden"></div>
     <%}%> 

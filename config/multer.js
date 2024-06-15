@@ -11,18 +11,19 @@ const storage = multer.diskStorage({
         cb(null, uniqueName + path.extname(file.originalname));
     }
 });
+
 const storage2 = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/images/productImg'); // Adjust the path according to your project structure
+      cb(null, './public/images/productImg');
     },
     filename: function (req, file, cb) {
       const uniqueName = uuidv4(); // Call uuidv4 function to get a unique identifier
       cb(null, uniqueName + path.extname(file.originalname));
     }
 });
-  
+
 const fileFilter = (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/;
+    const filetypes = /jpeg|jpg|png|webp|avif/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   
@@ -32,8 +33,7 @@ const fileFilter = (req, file, cb) => {
       cb('Error: Images Only!');
     }
 };
-  
-  
+
 const picUpload = multer({
   storage: storage2,
   limits: { fileSize: 1024 * 1024 * 5 }, 
