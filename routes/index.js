@@ -6,8 +6,9 @@ const LocalStrategy = require("passport-local").Strategy;
 const userModel = require("../models/users");
 const productModel = require("../models/Products")
 const cartModel = require("../models/cart")
+const storeModel = require("../models/store")
 const multer = require('multer')
-const {dpUpload, picUpload} = require('../config/multer')
+const {dpUpload, picUpload, bannerUpload, storeUpload} = require('../config/multer')
 
 // Passport Configuration
 passport.use(new LocalStrategy(userModel.authenticate()));
@@ -162,5 +163,32 @@ router.post("/addToCart/:id", isLoggedIn, async function (req, res) {
   }
 })
 //Cart SectionEnd
-
+//shop Form
+router.get("/makeShop",isLoggedIn, isVerified, function (req,res) {
+  res.render('shopForm')
+}) 
+router.post("shopCreated",storeUpload.single('storeDp'), bannerUpload.single('banner'), async function (req, res) {
+  const user = await userModel.findOne({
+    username: req.session.passport.user,
+  })
+  let existingShop = storeModel.find({
+    storeName: req.body.storeName
+  })
+  if(existingShop){
+    req.flash("error", "This store name is already taken.")
+    res.redirect("/makeShop")
+  }
+  const storedp = req.file
+  const banner = req.file
+  console.log(storedp, banner)
+  await storeModel.create({
+    storeName: req.body.storeName,
+    discription: req.body.description,
+    owner: user._id,
+    banner: banner,
+    storedp: storedp
+  })
+  res.redirect("/")
+})
+//Shop form end
 module.exports = router;

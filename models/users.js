@@ -35,14 +35,8 @@ const userSchema = new mongoose.Schema({
   myCart: [{
     type: Array,
   }],
+  myStore: { type: mongoose.Schema.Types.ObjectId, ref: "Shop" },
   myOrders: [],
-  myStore: {
-    storeName: { type: String },
-    storeDp: { type: String },
-    myProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-    discription: { type: String},
-    banner: { type: String},
-  },
   otp: Number,
   otpExpires: Date,
   isVerified: { type: Boolean, default: false },
